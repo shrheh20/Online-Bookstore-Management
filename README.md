@@ -1,1 +1,1 @@
-# Final_project
+Online Bookstore Management using php and MySQL
