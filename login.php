@@ -1,3 +1,30 @@
+<?php
+$email_err=$password_err=$confirm_err="";
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+$email = test_input($_POST["email"]);
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+  $email_err = "Invalid email format";
+}
+if(empty(trim($_POST["new_password"]))){
+        $password_err = "Please enter a password.";     
+    } elseif(strlen(trim($_POST["new_password"])) < 6){
+        $password_err = "Password must have atleast 6 characters.";
+    } else{
+        $password = trim($_POST["new_password"]);
+    }
+    
+    // Validate confirm password
+    if(empty(trim($_POST["confirm_password"]))){
+        $confirm_err = "Please confirm password.";     
+    } else{
+        $confirm = trim($_POST["confirm_password"]);
+        if(empty($password_err) && ($password != $confirm)){
+            $confirm_err = "Password did not match.";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -130,9 +157,11 @@ input{
             </div>
             <div class="box">
                 <form id="login" action="validation.php" method="post">
-                    <input type="email" name="email"class="input-field" placeholder="Email ID" required><br>
-                    <input type="password" name="password"class="input-field" placeholder="Password" required><br>
-                    <input type="submit" class="a" name="login" onclick="buy&sell.php"value="Login"><br>
+                    <input type="email" name="email"class="input-field" placeholder="Email ID" required>
+                    <span class="error" style="color:white;">* <?php echo $email_err;?></span>
+                    <input type="password" name="password"class="input-field" placeholder="Password" required>
+                    <span class="error" style="color:white;">* <?php echo $password_err;?></span><br>
+                    <input type="submit" class="a" name="login" onclick="buy&sell.php" value="Login"><br>
                      <!-- <a class="a" name="login"href="buy&sell.php">Login</a> -->
                     <?php
                     session_start();
@@ -153,19 +182,20 @@ input{
             </div>
             <div class="box">
                 <form id="forgot" action="forgot.php" method="post">
-                    <input type="email" name="email"class="input-field" placeholder="E-mail ID" required><br>
-                    <input type="password" name="new_password" class="input-field" placeholder="New Password" required><br>
-                    <input type="password" name="confirm_password" class="input-field" placeholder="Confirm Password" required><br>
-                    <input type="submit" class="a" name="change_password" onclick='showAlert()' value="Change Password"><br>
+                    <input type="email" name="email"class="input-field" placeholder="E-mail ID" required>
+                    <span class="error" style="color:white;">* <?php echo $email_err;?></span>
+                    <input type="password" name="new_password" class="input-field" placeholder="New Password" required><span class="error" style="color:white;">* <?php echo $password_err;?></span>
+                    <input type="password" name="confirm_password" class="input-field" placeholder="Confirm Password" required><span class="error" style="color:white;">* <?php echo $confirm_err;?></span><br>
+                    <input type="submit" class="a" name="change_password" onclick= 'showalert()'value="Change Password"><br>
                
                      <!-- <a class="a" name="login"href="buy&sell.php">Login</a> -->
                 </form>
         </div>
 </section>
 </body>
-<script>
-    function showAlert() {
-        alert("Your password has been updated successfully!");
-    }
+<script type="text/javascript">
+	function showalert{
+		alert('New password has been set');
+	}
 </script>
 </html>

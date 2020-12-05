@@ -186,7 +186,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Check input errors before inserting in database
-    if(empty($name_err) && empty($password_err) && empty($confirm_err)){
+    if(empty($name_err) && empty($password_err) && empty($confirm_err) && empty($branch_err) && empty($year_err) && empty($email_err) && empty($address_err) && empty($mobile_err)){
         
         // Prepare an insert statement
         $sql = "INSERT INTO student (EMAIL_ID,NAME,BRANCH,YEAR,ADDRESS,MOBILE_NO,PASSWORD) VALUES (:email,:name,:branch,:year,:address,:mobile,:password)";
@@ -341,14 +341,21 @@ input{
             </div>
             <div class="box">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <input type="text" name="name"class="input-field" placeholder="Name" required>
-                    <input type="e-mail" name="email"class="input-field" placeholder="E-mail ID" required>
-                    <input type="text" name="branch"class="input-field" placeholder="Branch eg. CMPN, ETRX" required>
-                    <input type="text" name="year"class="input-field" placeholder="Year eg. FE,SE" required>
-                    <input type="text" name="address"class="input-field" placeholder="Address" required>
-                    <input type="number" name="mobile"class="input-field" placeholder="Phone no." required>
-                    <input type="password" name="password"class="input-field" placeholder="Password" required>
-                    <input type="password" name="confirm"class="input-field" placeholder="  confirm Password" required><br>
+                    <input type="text" name="name" value="<?php echo $name;?>"class="input-field" placeholder="Name" required>
+                    <span class="error" style="color:white;">* <?php echo $name_err;?></span>
+                    <input type="e-mail" name="email" value="<?php echo $email;?>"class="input-field" placeholder="E-mail ID" required>
+                    <span class="error" style="color:white;">* <?php echo $email_err;?></span>
+                    <input type="text" name="branch" value="<?php echo $branch;?>"class="input-field" placeholder="Branch eg. CMPN, ETRX" required>
+                    <span class="error" style="color:white;">* <?php echo $branch_err;?></span>
+                    <input type="text" name="year" value="<?php echo $year;?>"class="input-field" placeholder="Year eg. FE,SE" required>
+                    <span class="error" style="color:white;">* <?php echo $year_err;?></span>
+                    <input type="text" name="address" value="<?php echo $address;?>"class="input-field" placeholder="Address" required>
+                    <span class="error" style="color:white;">* <?php echo $address_err;?></span>
+                    <input type="number" name="mobile" value="<?php echo $mobile;?>"class="input-field" placeholder="Phone no." required>
+                    <span class="error" style="color:white;">* <?php echo $mobile_err;?></span>
+                    <input type="password" name="password" class="input-field" placeholder="Password" required>
+                    <span class="error" style="color:white;">* <?php echo $password_err;?></span>
+                    <input type="password" style="color:white;"name="confirm" class="input-field" placeholder="Confirm Password" required><br><span class="error" style="color:white;">* <?php echo $confirm_err;?></span>
                     <button class="a" onclick="showAlert()">Sign Up</button>
                 </form>
             </div>
@@ -357,7 +364,7 @@ input{
 
 <script>
     function showAlert(){
-        alert("Your details have been registered! Move to Login page.");
-    }
+
+     }   
 </script>
 </html>

@@ -2,6 +2,7 @@
 // Initialize the session
 include("procedural.php");
 session_start();
+$email_err=$password_er="";
 if($_SERVER["REQUEST_METHOD"] == "POST") {
         
 
@@ -10,7 +11,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $email = mysqli_real_escape_string($db,$_POST['email']);
             $password = mysqli_real_escape_string($db,$_POST['password']);
             
-            $sqllogin = "SELECT * from student where EMAIL_ID='$email'";
+        if(empty(trim($_POST["email"]))){
+        $email_err = "Please enter valid email.";
+        } 
+        $sqllogin = "SELECT * from student where EMAIL_ID='$email'";
             $result = mysqli_query($db, $sqllogin);
             
             if (mysqli_num_rows($result) > 0) {
@@ -24,10 +28,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                         $_SESSION['success'] = "You are now logged in";
                         header('location: buy&sell.php');
                     }else{
-                        echo '<script type="text/javascript">';
-                        echo ' alert("Wrong username/password combination")';
-                        header('location:login.php');  //not showing an alert box.
-                        echo '</script>';
+                        echo "<script>alert('Wrong username/password combination');document.location='login.php'</script>";
+                        // echo '<script type="text/javascript">';
+                        // echo 'alert("Wrong username/password combination")';
+                        // echo '</script>'
+                        ;
                     }
             }
             else 
